@@ -2,6 +2,7 @@ const express = require("express")
 const request = require('request');
 const Storage = require("../lib/storage")
 const { keycheck, genkey } = require("../lib/keyutil");
+const { checkCAPTCHA } = require("../lib/captcha")
 const { application } = require("express");
 
 const api = express.Router()
@@ -15,6 +16,7 @@ storage.update()
 // 3 -> invalid request (something wrong with the data provided)
 // 4 -> too much data
 
+
 api.get("/ping", (req,res)=>{
     res.json({"error":0})
 })
@@ -24,23 +26,8 @@ api.get("/captcha", (req,res)=>{
 })
 
 api.post("/gen", (req,res)=>{
-    console.log(req.body)
-    if(
-        req.body.captcha === '' ||
-        req.body.captcha === undefined ||
-        req.body.captcha === null
-    ){
-        res.json({"error":1})
+    if(!checkCAPTCHA(req,res))
         return
-    }
-
-    let verify = `https://google.com/recaptcha/api/siteverify?secret=${process.env.PRIV_KEY}&response=${req.body.captcha}&remoteip=${req.connection.remoteAddress}`
-    request(verify, (err, response, body)=>{
-        body = JSON.parse(body)
-        if(body.success!==undefined&&!body.success)
-            return res.json({"error":3})
-    })
-
 
     if(storage.get("keys")===undefined){
         storage.add("keys", [])

@@ -10,11 +10,15 @@ const PORT = process.env.PORT
 
 app.use(bodyparser.json())
 app.use("/api", api)
-app.use(express.static("static")) // apm-web
 
-app.all("*", (req, res)=>{
-    res.redirect("/")
-})
+if (process.env.SIMPLE === "true"){
+    // web
+    app.use(express.static("static")) 
+
+    app.all("*", (req, res)=>{
+        res.redirect("/")
+    })
+}
 
 app.listen(PORT, ()=>{
     console.log(`
