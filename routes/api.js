@@ -1,5 +1,4 @@
 const express = require("express")
-const request = require('request');
 const Storage = require("../lib/storage")
 const { keycheck, genkey } = require("../lib/keyutil");
 const { checkCAPTCHA } = require("../lib/captcha")

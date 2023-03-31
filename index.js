@@ -11,7 +11,7 @@ const PORT = process.env.PORT
 app.use(bodyparser.json())
 app.use("/api", api)
 
-if (process.env.SIMPLE === "true"){
+if (process.env.SIMPLE !== "true"){
     // web
     app.use(express.static("static")) 
 
