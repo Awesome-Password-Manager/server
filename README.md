@@ -13,7 +13,7 @@ keys does not require reCAPTCHA, if your setting
 this server up for your local network you can
 set this option to `true`, but if your setting this server
 for public use, set it to `false`
-
+- `MAX`: Max storage size limit for one key, in chars
 Then install the dependencies with `npm i`
 and start the server with `npm run start`
 

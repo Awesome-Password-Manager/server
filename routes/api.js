@@ -65,7 +65,7 @@ api.post("/set/:key", (req,res)=>{
     if(!keycheck(key, storage))
         return res.send({"error":3})
 
-    if(data.length>10000)
+    if(data.length>parseInt(process.env.MAX))
         return res.send({"error":4})
 
     storage.add(key, data)
