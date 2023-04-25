@@ -18,4 +18,22 @@ Then install the dependencies with `npm i`
 and start the server with `npm run start`
 
 ### API Usage
-Will be documented soon...
+#### Error codes
+- 0: no errors
+- 1: invalid format (something wrong with parameters)
+- 2: not found
+- 3: invalid request (something wrong with the data provided)
+- 4: too much data (aka if char len is over the limit, see `MAX`)
+
+#### GET `/api/ping`
+Returns `{error: 0}`
+
+#### GET `/api/get/<key>`
+Returns `{error: 0, data: <data>}` if successful.
+Data is stored data of the key, if theres nothing
+stored `data` will be equal to `""`
+
+#### POST `/api/set/<key>`
+Post data format should be `{data: <data>}`.
+Returns `{error: 0}` if successful.
+Sets the stored data of the key to the data provided.
