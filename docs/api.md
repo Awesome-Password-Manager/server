@@ -3,7 +3,7 @@
 - 0: no errors
 - 1: not found
 - 2: invalid request (something wrong with the data provided)
-- 3: too much data (character limit exceeded, see [dcos/config.md#vault-max])
+- 3: too much data (character limit exceeded, see [config.md](docs/config.md#vault-max))
 - 4: auth error (provided password is wrong)
 
 ## GET `/api/ping`
