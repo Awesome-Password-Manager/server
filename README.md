@@ -1,39 +1,35 @@
-# Awesome Password Manager - Web Server/API
-This is the web server for Awesome Password Manager.
+# Passctl - Web Server/API
+This is the web server for passctl.
 
-### Setting Up
-You need to specify 
-- `PORT`: the port that web server will run on
-- `SITE_KEY`: site key for reCAPTCHA
-- `PRIV_KEY`: private key for reCAPTCHA
-in your `.env` file.
-- `SIMPLE`: enables simple mode, in simple
-mode theres no static resources and generating
-keys does not require reCAPTCHA, if your setting
-this server up for your local network you can
-set this option to `true`, but if your setting this server
-for public use, set it to `false`
-- `MAX`: Max storage size limit for one key, in chars
-Then install the dependencies with `npm i`
-and start the server with `npm run start`
+## Deploy (Manual)
+### Install the [dependencies](docs/depens.md) first!
+To deploy the passctl API server:
+1. Clone this repository
+2. Create a file called config.json
+3. Edit the `config.json`, all the
+configuration settings are explained in 
+in [docs/config.md](docs/config.md) 
+5. Run `npm i`
+6. Install [pm2](https://www.npmjs.com/package/pm2)
+7. Run `pm2 start index.js`
+8. 🎉 and its done! You now have a 
+running passctl server.
 
-### API Usage
-#### Error codes
-- 0: no errors
-- 1: invalid format (something wrong with parameters)
-- 2: not found
-- 3: invalid request (something wrong with the data provided)
-- 4: too much data (aka if char len is over the limit, see `MAX`)
+## Deploy (With the install script)
+For an guided install, you can use the [install script](install.sh):
+1. Clone this repository
+2. `cd server`
+3. `chmod +x install.sh`
+4. `./install.sh`
 
-#### GET `/api/ping`
-Returns `{error: 0}`
+## Advanced
+For advanced stuff like setting up a nginx proxy,
+see [docs](docs/advanced.md)
 
-#### GET `/api/get/<key>`
-Returns `{error: 0, data: <data>}` if successful.
-Data is stored data of the key, if theres nothing
-stored `data` will be equal to `""`
+## API Documention
+Passctl server is really lightweight since it 
+just acts like a database for your keys (passwords).
 
-#### POST `/api/set/<key>`
-Post data format should be `{data: <data>}`.
-Returns `{error: 0}` if successful.
-Sets the stored data of the key to the data provided.
+You can learn about the API in the [docs](docs/api.md).
+
+

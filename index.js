@@ -1,29 +1,28 @@
 const express = require("express")
-const bodyparser = require("body-parser")
-const api = require("./routes/api")
-require('dotenv').config()
-
+const api = require("./routes/api.js")
+const config = require("./lib/config.js")
 const app = express()
 
-const VERSION = "1.0.0"
-const PORT = process.env.PORT
+const VERSION = "2.0"
+const PORT = config["port"]
 
-app.use(bodyparser.json())
+app.use(express.json())
 app.use("/api", api)
+app.use(express.static("static")) 
 
-if (process.env.SIMPLE !== "true"){
-    // web
-    app.use(express.static("static")) 
+app.use((err, req, res, next) => {
+    res.send({ error: 2 })
+})
 
-    app.all("*", (req, res)=>{
-        res.redirect("/")
-    })
-}
+app.all("*", (req, res)=>{
+    res.redirect("/")
+})
 
 app.listen(PORT, ()=>{
     console.log(`
-                Awesome Password Manager - Server v${VERSION}
-            github.com/Awesome-Password-Manager/apm-server
-                    Server started on port ${PORT}
+Passctl Server v${VERSION}      
+github.com/passctl/server
+#################################
+Server started on port ${PORT}
     `)
 })

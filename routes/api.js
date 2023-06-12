@@ -1,33 +1,27 @@
 const express = require("express")
-const Storage = require("../lib/storage")
-const { keycheck, genkey } = require("../lib/keyutil");
-const { checkCAPTCHA } = require("../lib/captcha")
-const { application } = require("express");
+const Storage = require("../lib/storage.js")
+const config = require("../lib/config.js")
+const { keycheck, genkey, checkpass } = require("../lib/keyutil.js")
 
 const api = express.Router()
 const storage = new Storage()
 storage.update()
 
-// error codes:
-// 0 -> no errors
-// 1 -> invalid format (something wrong with parameters)
-// 2 -> not found
-// 3 -> invalid request (something wrong with the data provided)
-// 4 -> too much data
+api.use(["/gen", "/set/*"], (req,res,next)=>{
+    if(!req.body.pass)
+        return res.json({ error: 2 })
 
+    if(!checkpass(config, req.body.pass))
+        return res.json({ error: 4 })
 
-api.get("/ping", (req,res)=>{
-    res.json({"error":0})
+    next()
 })
 
-api.get("/captcha", (req,res)=>{
-    res.json({"error":0,"site":process.env.SITE_KEY})
+api.get("/ping", (req,res)=>{
+    res.json({ error: 0 })
 })
 
 api.post("/gen", (req,res)=>{
-    if(!checkCAPTCHA(req,res))
-        return
-
     if(storage.get("keys")===undefined){
         storage.add("keys", [])
     }
@@ -36,40 +30,45 @@ api.post("/gen", (req,res)=>{
     let k = genkey()
     keys.push(k)
     storage.add("keys", keys)
-    res.json({"error":0,"key":k})
+    res.json({ error: 0, key: k })
 })
 
 api.get("/get/:key", (req,res)=>{
     if(!req.params.key)
-        return res.send({"error":1})
+        return res.send({ error: 1 })
 
     let key = req.params.key
-    let data = storage.get(key)
 
     if(!keycheck(key, storage))
-        return res.send({"error":2})
+        return res.send({ error: 1 })
+
+    let data = storage.get(key)
 
     if(data===undefined)
-        return res.send({"error":0, "data":""})
+        return res.send({ error: 0, data:"" })
 
-    res.send({"error":0, "data":data})
+    res.send({ error: 0, vault: data })
 })
 
 api.post("/set/:key", (req,res)=>{
-    if(req.params.key === undefined || req.body.data === undefined)
-        return res.send({"error":1})
+    if(
+        !req.params.key || 
+        !req.body.vault
+    )
+        return res.send({ error: 2 })
 
     let key = req.params.key
-    let data = req.body.data
+    let data = req.body.vault
 
     if(!keycheck(key, storage))
-        return res.send({"error":3})
+        return res.send({ error: 1 })
 
-    if(data.length>parseInt(process.env.MAX))
-        return res.send({"error":4})
+    if(config["vault-max"]!==-1)
+        if(data.length>parseInt(config["vault-max"]))
+            return res.send({ error: 3 })
 
     storage.add(key, data)
-    res.send({"error":0})
+    res.send({ error: 0 })
 })
 
 module.exports = api
