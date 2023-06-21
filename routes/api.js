@@ -63,7 +63,7 @@ api.post("/set/:key", (req,res)=>{
     if(!keycheck(key, storage))
         return res.send({ error: 1 })
 
-    if(config["vault-max"]!==-1)
+    if(config["vault-max"]!==0)
         if(data.length>parseInt(config["vault-max"]))
             return res.send({ error: 3 })
 
