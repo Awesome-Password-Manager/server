@@ -45,7 +45,7 @@ api.get("/get/:key", (req,res)=>{
     let data = storage.get(key)
 
     if(data===undefined)
-        return res.send({ error: 0, data:"" })
+        return res.send({ error: 0, vault: "" })
 
     res.send({ error: 0, vault: data })
 })

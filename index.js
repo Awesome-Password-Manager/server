@@ -3,7 +3,7 @@ const api = require("./routes/api.js")
 const config = require("./lib/config.js")
 const app = express()
 
-const VERSION = "2.0"
+const VERSION = "2.1"
 const PORT = config["port"]
 
 app.use(express.json())
