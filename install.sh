@@ -39,7 +39,7 @@ echo -e "$BLUE Time to configure the server $RESET"
 echo -en "$BLUE What port should the server listen on?$RESET"
 read -p " " port 
 echo '\t"port": $port,' >> config.json
-echo -en "$BLUE What should be the max vault size? \(0 for none\)$RESET"
+echo -en "$BLUE What should be the max vault size? (0 for none)$RESET"
 read -p " " max
 echo '\t"vault-max": $max,' >> config.json
 echo -en "$BLUE What should the server password be?$RESET"
