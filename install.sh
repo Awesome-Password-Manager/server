@@ -38,16 +38,16 @@ echo "{" > config.json
 echo -e "$BLUE Time to configure the server $RESET"
 echo -en "$BLUE What port should the server listen on?$RESET"
 read -p " " port 
-echo '\t"port": $port,' >> config.json
+echo '"port": $port,' >> config.json
 echo -en "$BLUE What should be the max vault size? (0 for none)$RESET"
 read -p " " max
-echo '\t"vault-max": $max,' >> config.json
+echo '"vault-max": $max,' >> config.json
 echo -en "$BLUE What should the server password be?$RESET"
 read -p " " pass
 pass=$(echo -n $pass | sha512sum)
 pass=$(echo ${pass// /})
 pass=$(echo ${pass//-/})
-echo '\t"pass": "$pass"' >> config.json
+echo '"pass": "$pass"' >> config.json
 echo "}" >> config.json
 echo -e "$GREEN Configuration is done! $RESET"
 
