@@ -36,11 +36,14 @@ echo -e "$GREEN Done! $RESET"
 
 echo "{" > config.json
 echo -e "$BLUE Time to configure the server $RESET"
-read -p "$(echo -e '$BLUE What port should the server listen on? $RESET')" port 
+echo -en "$BLUE What port should the server listen on?$RESET"
+read -p " " port 
 echo '\t"port": $port,' >> config.json
-read -p "$(echo -e '$BLUE What should be the max vault size? \(0 for none\) $RESET')" max
+echo -en "$BLUE What should be the max vault size? \(0 for none\)$RESET"
+read -p " " max
 echo '\t"vault-max": $max,' >> config.json
-read -p "$(echo -e '$BLUE What should the server password be? $RESET')" pass
+echo -en "$BLUE What should the server password be?$RESET"
+read -p " " pass
 pass=$(echo -n $pass | sha512sum)
 pass=$(echo ${pass// /})
 pass=$(echo ${pass//-/})
