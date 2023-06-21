@@ -15,13 +15,6 @@ in [docs/config.md](docs/config.md)
 8. 🎉 and its done! You now have a 
 running passctl server.
 
-## Deploy (With the install script)
-For an guided install, you can use the [install script](install.sh):
-1. Clone this repository
-2. `cd server`
-3. `chmod +x install.sh`
-4. `./install.sh`
-
 ## Advanced
 For advanced stuff like setting up a nginx proxy,
 see [docs](docs/advanced.md)
